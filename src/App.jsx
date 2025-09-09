@@ -15,6 +15,8 @@ function App() {
   //message
   const [message, setMessage] = useState('');
   const [allCards, setAllCards] = useState([]);
+  //coin state
+  const [coins, setCoins] = useState(0);
 
 
   //fetching pokemon
@@ -35,42 +37,64 @@ function App() {
     fetchPokemon();
   }, [])//end
 
-  const pickRandomSix = (array) => {
-    return [...array].sort(() => Math.random() - 0.5).slice(0,6);
+  const pickRandomSix = (allCards, clicked) => {
+    //separating the remaining and already clicked
+    const remaining = allCards.filter(card => !clicked.includes(card.id));
+    //const alreadyClicked = allCards.filter(card => clicked.includes(card.id));
+    const numCards = Math.min(6, allCards.length);
+    //how many card to display
+    if (remaining.length === 0 ) {
+      return [...allCards].sort(() => Math.random() - 0.5).slice(0, numCards);
+    }
+    //pick 1 new card from remaining
+    const newCardIndex = Math.floor(Math.random() * remaining.length);
+    const newCard = remaining[newCardIndex];
+    //pick the rest randomly from the full pool 
+    const pool = allCards.filter(card => card.id !== newCard.id);
+    const rest = [];
+    const poolCopy = [...pool];
+    while (rest.length < numCards - 1 && poolCopy.length > 0) {
+      const idx = Math.floor(Math.random() * poolCopy.length);
+      rest.push(poolCopy[idx]);
+      poolCopy.splice(idx, 1);
+    }
+    //combining the rest
+    const finalCards = [newCard, ...rest].sort(() => Math.random() - 0.5);
+    return finalCards
   }
 
 //handle card click
-const handleClick = (id) => {
-  if (clicked.includes(id)){
-    //click duplicate end game
-    setScore(0);
-    setClicked([]);
-    setMessage("Oops! You clicked that Pokémon already!");
-
-  } else {
-    //new click
-    const newScore = score + 1;
-    setScore(newScore);
-    setClicked([...clicked, id]);
-    setMessage('');
-
-    if (newScore > bestScore) setBestScore(newScore);
-    //shuffle cards
-  
-    setCards(pickRandomSix(allCards));
-    //win condition
-    if(newScore === cards.length){
-      setMessage("You got them all!");
-      setClicked([]);
+  function handleClick(id) {
+    if (clicked.includes(id)) {
+      //click duplicate end game
       setScore(0);
-    }
+      setClicked([]);
+      setMessage("Oops! You clicked that Pokémon already!");
 
-  } //end else
-}//end click
+    } else {
+      //new click
+      const newScore = score + 1;
+      setScore(newScore);
+      setClicked([...clicked, id]);
+      setCoins(coins + 1); //updates coin value
+      setMessage('');
+
+      if (newScore > bestScore) setBestScore(newScore);
+      //shuffle cards
+      setCards(pickRandomSix(allCards, clicked));
+      //win condition
+      if (newScore === allCards.length) {
+        setMessage("You got them all!");
+        setClicked([]);
+        setScore(0);
+      }
+
+    } //end else
+  }//end click
 
   return (
     <>
-    <Score score={score} bestScore={bestScore} message={message} />
+    <Score score={score} bestScore={bestScore} message={message} coins={coins} />
     <div className='grid-container'>
       {cards.map((card) => (
         <Card key={card.id} 
