@@ -1,0 +1,100 @@
+.shop-container {
+  position: relative;
+  padding: 1rem;
+}
+
+.coin-display {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 0.5rem;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.price {
+  margin: 0.5rem 0;
+  font-weight: bold;
+}
+
+.add-btn {
+  background: #4CAF50;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #45a049;
+}
+
+/* Cart pop-up */
+.cart-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  background: white;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.cart-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart-popup li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.remove-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.cart-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.checkout-btn {
+  background: #4CAF50;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.checkout-btn:disabled {
+  background: #999;
+}
+
+.close-btn {
+  background: #ccc;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
